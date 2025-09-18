@@ -1,3 +1,7 @@
+<?php
+session_start();
+ob_start();
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -14,13 +18,28 @@
       
     }
         </style>
-    <title>Hello, world!</title>
+    <title>Hunt Room</title>
   </head>
   <body>
     <div class="container">
+      <form action="hunt.php" method="post">
     <div class="row">
         <div class="col">
-          เป้าหมาย : 67319010001
+          เป้าหมาย
+          เพศ 
+          <input type="radio" name="gender" value="male"
+          <?php
+          if(!empty($_POST['gender']))$_SESSION['gender']=$_POST['gender'];
+            if(empty($_SESSION['gender']))$_SESSION['gender']='male';
+            if($_SESSION['gender']=='male') print ' checked';
+          ?>> ชาย 
+          <input type="radio" name="gender" value="female"
+          <?php
+            if($_SESSION['gender']=='female') print ' checked';
+          ?>> หญิง
+        </div>
+        <div class="col">
+          <button type="submit" class="btn btn-success w-100">เลือกเป้าหมาย</button>
         </div>
         <div class="col">
           <a href="#" id="copy_username" class="btn btn-primary w-100">คัดลอก username</a>
@@ -29,9 +48,11 @@
           <a href="#" id="copy_password" class="btn btn-primary w-100">คัดลอก password</a>
         </div>
         <div class="col">
-          <a href="#" class="btn btn-success w-100">ล็อกเป้าหมาย</a>
+          <a href="../" class="btn btn-danger w-100">ออกจากห้อง</a>
         </div>
     </div>
+    
+    </form>
   <iframe id="myFrame" src="https://backend.v-cop.go.th/LoginStudent" style="height:100vh;width:100%"></iframe>
 </div>
 
