@@ -1,6 +1,26 @@
 <?php
 session_start();
 ob_start();
+require_once('../db.php');
+
+$mode_copy='input';// button or input
+
+  if(!empty($_POST['result'])){
+    $sql="update target set status='killed' where id='".$_POST['id']."' limit 1";
+    $result=$db->query($sql);
+  }
+
+  if(!empty($_POST['gender']))$_SESSION['gender']=$_POST['gender'];
+  if(empty($_SESSION['gender']))$_SESSION['gender']='male';
+
+  $sql='select * from target_data td left join target t on td.id=t.id where t.status="live" and gender="'.$_SESSION['gender'].'" order by t.id limit 1';
+  $reqult=$db->query($sql);
+  $r=$reqult->fetch_assoc();
+  // while($r=$reqult->fetch_assoc()){
+  //   print_r($r);
+  //   print "<br>";
+  // }
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -25,34 +45,63 @@ ob_start();
       <form action="hunt.php" method="post">
     <div class="row">
         <div class="col">
-          เป้าหมาย
-          เพศ 
           <input type="radio" name="gender" value="male"
           <?php
-          if(!empty($_POST['gender']))$_SESSION['gender']=$_POST['gender'];
-            if(empty($_SESSION['gender']))$_SESSION['gender']='male';
+          
             if($_SESSION['gender']=='male') print ' checked';
           ?>> ชาย 
           <input type="radio" name="gender" value="female"
           <?php
             if($_SESSION['gender']=='female') print ' checked';
-          ?>> หญิง
+          ?>> หญิง<br>
+          <?php 
+          print $r['id'];
+          ?>
+          <input type="hidden" name="id" value="<?php 
+          print $r['id'];
+          ?>">
+          <label><input type="checkbox" name="result" value="killed"> ภารกิจสมบูรณ์</label>
         </div>
         <div class="col">
           <button type="submit" class="btn btn-success w-100">เลือกเป้าหมาย</button>
         </div>
+        
+        <?php
+        if($mode_copy=='button'){
+        ?>
         <div class="col">
-          <a href="#" id="copy_username" class="btn btn-primary w-100">คัดลอก username</a>
+          <a href="#" id="copy_username" class="btn btn-primary w-100">username</a>
         </div>
         <div class="col">
-          <a href="#" id="copy_password" class="btn btn-primary w-100">คัดลอก password</a>
+          <a href="#" id="copy_password" class="btn btn-primary w-100">password</a>
         </div>
+        <div class="col">
+          <a href="#" id="copy_email" class="btn btn-primary w-100">email</a>
+        <!-- </div>
         <div class="col">
           <a href="../" class="btn btn-danger w-100">ออกจากห้อง</a>
-        </div>
+        </div> -->
     </div>
+        <?php
+        }else if($mode_copy=='input'){
+?>
+<div class="col">
+          username <input type="text" size="10" value="<?php print $r['id']; ?>">
+        </div>
+        <div class="col">
+          password <input type="text" size="10" value="<?php print $r['citizen_id']; ?>">
+        </div>
+        <div class="col">
+          email <input type="text" size="10" value="<?php print $r['id']."@rvc.ac.th"; ?>">
+    </div>
+
+<?php
+
+        }
+    ?>
     
     </form>
+
   <iframe id="myFrame" src="https://backend.v-cop.go.th/LoginStudent" style="height:100vh;width:100%"></iframe>
 </div>
 
@@ -74,10 +123,19 @@ ob_start();
   crossorigin="anonymous"></script>
     <script>
       $("#copy_username").click(function(){
-        navigator.clipboard.writeText('67319010001');
+        navigator.clipboard.writeText('<?php 
+          print $r['id'];
+          ?>');
       });
       $("#copy_password").click(function(){
-        navigator.clipboard.writeText('1459901138145');
+        navigator.clipboard.writeText('<?php 
+          print $r['citizen_id'];
+          ?>');
+      });
+      $("#copy_email").click(function(){
+        navigator.clipboard.writeText('<?php 
+          print $r['id'].'@rvc.ac.th';
+          ?>');
       });
       </script>
   </body>
