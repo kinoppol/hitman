@@ -3,6 +3,8 @@ session_start();
 ob_start();
 require_once('../db.php');
 
+$mode_copy='input';// button or input
+
   if(!empty($_POST['result'])){
     $sql="update target set status='killed' where id='".$_POST['id']."' limit 1";
     $result=$db->query($sql);
@@ -63,6 +65,10 @@ require_once('../db.php');
         <div class="col">
           <button type="submit" class="btn btn-success w-100">เลือกเป้าหมาย</button>
         </div>
+        
+        <?php
+        if($mode_copy=='button'){
+        ?>
         <div class="col">
           <a href="#" id="copy_username" class="btn btn-primary w-100">username</a>
         </div>
@@ -76,6 +82,23 @@ require_once('../db.php');
           <a href="../" class="btn btn-danger w-100">ออกจากห้อง</a>
         </div> -->
     </div>
+        <?php
+        }else if($mode_copy=='input'){
+?>
+<div class="col">
+          username <input type="text" size="10" value="<?php print $r['id']; ?>">
+        </div>
+        <div class="col">
+          password <input type="text" size="10" value="<?php print $r['citizen_id']; ?>">
+        </div>
+        <div class="col">
+          email <input type="text" size="10" value="<?php print $r['id']."@rvc.ac.th"; ?>">
+    </div>
+
+<?php
+
+        }
+    ?>
     
     </form>
 
