@@ -50,7 +50,7 @@
                 <p class="card-text">ห้องดำเนินติดกตามการกรอกข้อมูล รายชื่อที่ยังไม่ดำเนินการ</p>
             </div>
             <div class="card-footer text-center">
-                <a href="#" class="btn btn-secondary w-100">เข้าห้อง</a>
+                <a href="./room/tracking.php" class="btn btn-secondary w-100">เข้าห้อง</a>
             </div>
         </div>
     </div>
