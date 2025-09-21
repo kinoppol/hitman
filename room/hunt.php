@@ -16,7 +16,7 @@ $mode_copy='input';// button or input
   $sql='select * from target_data td left join target t on td.id=t.id where t.status="live" and gender="'.$_SESSION['gender'].'" order by t.id limit 1';
   $reqult=$db->query($sql);
   $r=$reqult->fetch_assoc();
-    $sql='update target set status="hunting" where id="'.$r['t.id].'"';
+    $sql='update target set status="hunting" where id="'.$r['t.id'].'"';
     $db->query($sql);
   // while($r=$reqult->fetch_assoc()){
   //   print_r($r);
