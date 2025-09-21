@@ -6,7 +6,7 @@ require_once('../db.php');
 $mode_copy='input';// button or input
 
   if(!empty($_POST['result'])){
-    $sql="update target set status='killed' where id='".$_POST['id']."' limit 1";
+    $sql="update target set status='killed' where id='".$_POST['id']."'";
     $result=$db->query($sql);
   }
 
