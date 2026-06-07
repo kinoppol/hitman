@@ -3,8 +3,9 @@ $db_host='localhost';
 $db_user='root';
 $db_pass='';
 $db_database='hitman';
+$db_port='3307';
 
-$db = new mysqli($db_host,$db_user,$db_pass,$db_database);
+$db = new mysqli($db_host,$db_user,$db_pass,$db_database,$db_port);
 
 if($db->connect_errno){
     print view('_error/errordb');
